@@ -1,11 +1,20 @@
 language: python
 python:
-    - "2.7"
-    - "3.3"
-    - "3.4"
-    - "3.5"
-    - "3.6"
+- '2.7'
+- '3.3'
+- '3.4'
+- '3.5'
+- '3.6'
 install:
-    - pip install pybuilder
-    - pyb install_dependencies
+- pip install pybuilder
+- pyb install_dependencies
 script: pyb run_unit_tests -X
+deploy:
+  provider: pypi
+  user: ingofruend
+  password:
+    secure: MqQW4pr9gEUnaPZLg9MXmpAFZ3tEgQ/Pix1woLdsvNcEJb+4n99m15ATrqCH3eyo5+ia1AA9Gwm1Pjfb24xO6IabH/U/7t18oJF5NK6PlsN2jmoxA+f5k0qxHUwqUns7VolE3sdUBHmeIwCf57PUcloiT0V4sw4g4t2I5Cokcwz3QXrqlwdR7gh3nYfTWumFzp80qXVB5Pf8bqV4xUk2KQ3hGBBhVMYaNXcNM02Vcob/pzrz14jHof3RMYtIvz1hq2MWwIx8eGR4AecYjVd8JNQ02x26n/tQ9fLMIZygv7Iol/SxAebvJdl1MfjeAlCCUztn966LoGm05QqLp64KCQ8Hrdnqk/jp9PFVVqWlQ3aieYjBQemIPzky7RklTdmgXBZRZ51DY/yfqr3Fzlti0OW2ABzaPncvvQ24q0JuCI4kmQEqkVgZ3T1uYcNNm/3QkX5oPABpr9h6lwkUzgKXxrMjDPJRo4s9TE5920xUp2PrnwguF6kBO8X7Sstbw1svB48lOrV46LajnIYu4mcEAsUABPLrdaOkh9mqj0cuUNArUCe31tyx3ZZJCvvp+YTlGbsv3MoqF4mMdO5Mp7sTz2b4JHTNTDVSlonh/WF9SIXNOhsEUCYlQZngSRfJumgBUBZ+o7A1Zj+DJ9+ChYajY1JnTbim4uYgKgpDrM1O/oE=
+  on:
+    tags: true
+    distributions: sdist bdist_wheel
+    repo: igordertigor/pybuilder-research-plugin
