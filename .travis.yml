@@ -8,5 +8,5 @@ python:
     - "3.6"
 install:
     - pip install pybuilder
-    - pybuilder install_dependencies
+    - pyb install_dependencies
 script: pyb run_unit_tests -X
