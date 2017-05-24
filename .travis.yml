@@ -10,6 +10,3 @@ install:
     - pip install pybuilder
     - pybuilder install_dependencies
 script: pyb run_unit_tests -X
-deploy:
-    provider: pypi
-    user: ingofruend
