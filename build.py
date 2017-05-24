@@ -14,6 +14,7 @@ default_task = "publish"
 version = count_travis()
 authors = [Author('Ingo Fruend', 'github@ingofruend.net')]
 requires_python = '>=2.7,!=3.0,!=3.1,!=3.2'
+url = 'https://github.com/igordertigor/pybuilder-research-plugin'
 
 
 @init
