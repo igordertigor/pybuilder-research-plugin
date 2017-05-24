@@ -13,7 +13,7 @@ name = "pybuilder-research-plugin"
 default_task = "publish"
 version = count_travis()
 authors = [Author('Ingo Fruend', 'github@ingofruend.net')]
-requires_python = '>2.7,!=3.0,!=3.1,!=3.2'
+requires_python = '>=2.7,!=3.0,!=3.1,!=3.2'
 
 
 @init
