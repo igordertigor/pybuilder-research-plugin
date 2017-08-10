@@ -37,6 +37,17 @@ pyb run_script
 ```
 This is for one less error prone and for two less typing.
 
+Furthermore, the plugin provides a command (`start_figure`) to create a simple template for
+creating figure scripts. This can be controlled by the following two
+properties:
+
+- `use_seaborn`: boolean for whether to include
+  [seaborn](https://seaborn.pydata.org) (the default), or not.
+- `new_figure_name`: The filename in which to create the new figure. This
+  will be created in your scripts folder and you should probably rename
+  the file to something that describes what your figure shows. Default is
+  `figure.py`.
+
 In the future, pybuilder-research-plugin might contain other tasks such as
 compiling a paper or potentially integration of experiment tracking tools such
 as [sumatra](https://pythonhosted.org/Sumatra/) or
