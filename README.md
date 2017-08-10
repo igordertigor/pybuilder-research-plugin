@@ -42,3 +42,10 @@ compiling a paper or potentially integration of experiment tracking tools such
 as [sumatra](https://pythonhosted.org/Sumatra/) or
 [sacred](https://github.com/IDSIA/sacre://github.com/IDSIA/sacred). Yet, these
 will evolve as I feel they are needed (or someone sends me a pull request).
+
+## How do I install it?
+
+Just add it to your `build.py`:
+```python
+use_plugin('pypi:pybuilder_research_plugin')
+```
