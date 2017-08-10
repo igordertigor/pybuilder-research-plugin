@@ -96,3 +96,73 @@ class TestRunScript(unittest.TestCase):
             plugin.run_script(self.project, self.logger)
 
         self.mock_exec_command.assert_not_called()
+
+
+class TestStartFigure(unittest.TestCase):
+
+    def setUp(self):
+        self.project = mock.Mock()
+        self.logger = mock.Mock()
+
+    @mock.patch('os.path.exists', mock.Mock(return_value=False))
+    @mock.patch('pybuilder_research_plugin.open')
+    def test_should_honor_new_figure_name_variable(self, mock_open):
+        return_values = {'dir_dist_scripts': 'ANY_SCRIPTS_DIR',
+                         'new_figure_name': 'ANY_NEW_FIGURE_NAME.py',
+                         'use_seaborn': True}
+        self.project.get_property.side_effect = lambda key: return_values[key]
+
+        plugin.start_figure(self.project, self.logger)
+
+        mock_open.assert_called_once_with(
+            'ANY_SCRIPTS_DIR/ANY_NEW_FIGURE_NAME.py',
+            'w'
+        )
+
+    @mock.patch('os.path.exists', mock.Mock(return_value=True))
+    def test_should_raise_if_figure_exists(self):
+        return_values = {'dir_dist_scripts': 'ANY_SCRIPTS_DIR',
+                         'new_figure_name': 'ANY_NEW_FIGURE_NAME.py',
+                         'use_seaborn': True}
+        self.project.get_property.side_effect = lambda key: return_values[key]
+
+        with self.assertRaises(plugin.PybResearchException):
+            plugin.start_figure(self.project, self.logger)
+
+    @mock.patch('os.path.exists', mock.Mock(return_value=False))
+    @mock.patch('pybuilder_research_plugin.open')
+    def test_should_include_seaborn_if_requested(self, mock_open):
+        return_values = {'dir_dist_scripts': 'ANY_SCRIPTS_DIR',
+                         'new_figure_name': 'ANY_NEW_FIGURE_NAME.py',
+                         'use_seaborn': True}
+        self.project.get_property.side_effect = lambda key: return_values[key]
+
+        plugin.start_figure(self.project, self.logger)
+
+        script, = mock_open().__enter__().write.call_args[0]
+
+        self.assertIn('sns', script)
+        self.assertIn('sns.despine', script)
+        self.assertIn('gridspec', script)
+        self.assertIn('pl.tight_layout()', script)
+        self.assertIn('svg', script)
+        self.assertIn("sns.set_style('ticks')", script)
+
+    @mock.patch('os.path.exists', mock.Mock(return_value=False))
+    @mock.patch('pybuilder_research_plugin.open')
+    def test_should_exclude_seaborn_if_requested(self, mock_open):
+        return_values = {'dir_dist_scripts': 'ANY_SCRIPTS_DIR',
+                         'new_figure_name': 'ANY_NEW_FIGURE_NAME.py',
+                         'use_seaborn': False}
+        self.project.get_property.side_effect = lambda key: return_values[key]
+
+        plugin.start_figure(self.project, self.logger)
+
+        script, = mock_open().__enter__().write.call_args[0]
+
+        self.assertNotIn('sns', script)
+        self.assertNotIn('sns.despine', script)
+        self.assertIn('gridspec', script)
+        self.assertIn('pl.tight_layout()', script)
+        self.assertIn('svg', script)
+        self.assertNotIn("sns.set_style('ticks')", script)
