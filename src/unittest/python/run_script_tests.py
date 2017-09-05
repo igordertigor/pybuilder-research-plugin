@@ -5,9 +5,19 @@ except ImportError:
     import mock
 
 import os
+import sys
 
 
 import pybuilder_research_plugin as plugin
+
+
+def open_spec():
+    if sys.version_info[0] == 2:
+        return 'pybuilder_research_plugin.open'
+    elif sys.version_info[0] == 3:
+        return 'builtins.open'
+    else:
+        raise IOError('sys.version_info = {}'.format(sys.version_info[0]))
 
 
 class TestCopyEnv(unittest.TestCase):
@@ -105,7 +115,7 @@ class TestStartFigure(unittest.TestCase):
         self.logger = mock.Mock()
 
     @mock.patch('os.path.exists', mock.Mock(return_value=False))
-    @mock.patch('builtins.open')
+    @mock.patch(open_spec())
     def test_should_honor_new_figure_name_variable(self, mock_open):
         return_values = {'dir_dist_scripts': 'ANY_SCRIPTS_DIR',
                          'new_figure_name': 'ANY_NEW_FIGURE_NAME.py',
@@ -130,7 +140,7 @@ class TestStartFigure(unittest.TestCase):
             plugin.start_figure(self.project, self.logger)
 
     @mock.patch('os.path.exists', mock.Mock(return_value=False))
-    @mock.patch('builtins.open')
+    @mock.patch(open_spec())
     def test_should_include_seaborn_if_requested(self, mock_open):
         return_values = {'dir_dist_scripts': 'ANY_SCRIPTS_DIR',
                          'new_figure_name': 'ANY_NEW_FIGURE_NAME.py',
@@ -149,7 +159,7 @@ class TestStartFigure(unittest.TestCase):
         self.assertIn("sns.set_style('ticks')", script)
 
     @mock.patch('os.path.exists', mock.Mock(return_value=False))
-    @mock.patch('builtins.open')
+    @mock.patch(open_spec())
     def test_should_exclude_seaborn_if_requested(self, mock_open):
         return_values = {'dir_dist_scripts': 'ANY_SCRIPTS_DIR',
                          'new_figure_name': 'ANY_NEW_FIGURE_NAME.py',
