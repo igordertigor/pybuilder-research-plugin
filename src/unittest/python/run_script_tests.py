@@ -105,7 +105,7 @@ class TestStartFigure(unittest.TestCase):
         self.logger = mock.Mock()
 
     @mock.patch('os.path.exists', mock.Mock(return_value=False))
-    @mock.patch('pybuilder_research_plugin.open')
+    @mock.patch('builtins.open')
     def test_should_honor_new_figure_name_variable(self, mock_open):
         return_values = {'dir_dist_scripts': 'ANY_SCRIPTS_DIR',
                          'new_figure_name': 'ANY_NEW_FIGURE_NAME.py',
@@ -130,7 +130,7 @@ class TestStartFigure(unittest.TestCase):
             plugin.start_figure(self.project, self.logger)
 
     @mock.patch('os.path.exists', mock.Mock(return_value=False))
-    @mock.patch('pybuilder_research_plugin.open')
+    @mock.patch('builtins.open')
     def test_should_include_seaborn_if_requested(self, mock_open):
         return_values = {'dir_dist_scripts': 'ANY_SCRIPTS_DIR',
                          'new_figure_name': 'ANY_NEW_FIGURE_NAME.py',
@@ -149,7 +149,7 @@ class TestStartFigure(unittest.TestCase):
         self.assertIn("sns.set_style('ticks')", script)
 
     @mock.patch('os.path.exists', mock.Mock(return_value=False))
-    @mock.patch('pybuilder_research_plugin.open')
+    @mock.patch('builtins.open')
     def test_should_exclude_seaborn_if_requested(self, mock_open):
         return_values = {'dir_dist_scripts': 'ANY_SCRIPTS_DIR',
                          'new_figure_name': 'ANY_NEW_FIGURE_NAME.py',
